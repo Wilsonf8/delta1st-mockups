@@ -141,14 +141,14 @@ export function TimeclockModal({
 
   const handleEndBreak = () => {
     endBreak(id);
-    if (variant === "nameBadge") {
-      close();
-    }
-    // For hamburger, stay on modal to let them see updated state
-    // Actually per plan: end break only shown, no sign out
-    if (variant === "hamburger") {
-      close();
-    }
+    close();
+  };
+
+  const handleEndBreakAndSignOut = () => {
+    endBreak(id);
+    close();
+    logout();
+    router.push("/");
   };
 
   const handleSkip = () => {
@@ -158,7 +158,28 @@ export function TimeclockModal({
 
   const renderButtons = () => {
     if (variant === "pinEntry") {
-      // Only shown when CLOCKED_OUT
+      if (clockStatus === "ON_BREAK") {
+        return (
+          <div className="flex flex-col gap-2">
+            <Button
+              onClick={handleEndBreak}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Coffee className="w-4 h-4 mr-2" />
+              End Break
+            </Button>
+            <Button
+              onClick={handleEndBreakAndSignOut}
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+            >
+              <Coffee className="w-4 h-4 mr-2" />
+              End Break & Sign Out
+            </Button>
+          </div>
+        );
+      }
+      // CLOCKED_OUT
       return (
         <div className="flex flex-col gap-2">
           <Button

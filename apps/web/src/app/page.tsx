@@ -22,11 +22,11 @@ export default function LoginPage() {
         return;
       }
 
-      if (employee.clockStatus === "CLOCKED_OUT") {
+      if (employee.clockStatus === "CLOCKED_OUT" || employee.clockStatus === "ON_BREAK") {
         // Go to orders, then show timeclock modal (Variant C)
         router.push("/orders?timeclock=pin");
       } else {
-        // CLOCKED_IN or ON_BREAK → go to orders
+        // CLOCKED_IN → go to orders
         router.push("/orders");
       }
     },
