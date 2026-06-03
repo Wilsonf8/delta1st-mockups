@@ -240,6 +240,20 @@ export function TimeclockModal({
     }
 
     // CLOCKED_OUT (for hamburger or nameBadge variant)
+    if (variant === "nameBadge") {
+      return (
+        <div className="flex flex-col gap-2">
+          <Button
+            onClick={handleClockIn}
+            className="bg-pos-green hover:bg-pos-green-dark text-white"
+          >
+            <LogIn className="w-4 h-4 mr-2" />
+            Clock In
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col gap-2">
         <Button
