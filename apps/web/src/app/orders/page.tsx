@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,7 +12,7 @@ import { SideDrawer } from "@/components/side-drawer";
 import { TimeclockModal } from "@/components/timeclock-modal";
 import { mockOrders } from "@/lib/mock-data";
 
-export default function OrdersPage() {
+function OrdersContent() {
   const router = useRouter();
   const { currentEmployee } = useEmployee();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -27,7 +27,6 @@ export default function OrdersPage() {
     if (searchParams.get("timeclock") === "pin" && currentEmployee) {
       setTimeclockVariant("pinEntry");
       setTimeclockOpen(true);
-      // Clean up the URL
       router.replace("/orders");
     }
   }, [searchParams, currentEmployee, router]);
@@ -121,5 +120,13 @@ export default function OrdersPage() {
         variant={timeclockVariant}
       />
     </div>
+  );
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense>
+      <OrdersContent />
+    </Suspense>
   );
 }

@@ -84,10 +84,10 @@ export function SideDrawer({
 
         <Separator />
 
-        <div className="space-y-2 pb-4 pt-2">
+        <div className="flex gap-2 pb-4 pt-2">
           <Button
             variant="outline"
-            className="w-full justify-start gap-2"
+            className="flex-1 gap-2"
             onClick={handleTimeclock}
           >
             <Clock className="w-5 h-5" />
@@ -95,7 +95,7 @@ export function SideDrawer({
           </Button>
           <Button
             variant="outline"
-            className="w-full justify-start gap-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
+            className="flex-1 gap-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
             onClick={handleSignOut}
           >
             <LogOut className="w-5 h-5" />
