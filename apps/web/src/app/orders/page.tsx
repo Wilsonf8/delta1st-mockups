@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,10 +21,16 @@ function OrdersContent() {
     "hamburger" | "nameBadge" | "pinEntry"
   >("nameBadge");
   const searchParams = useSearchParams();
+  const handledTimeclockParam = useRef(false);
 
   // Auto-open timeclock modal when arriving from PIN entry while clocked out
   useEffect(() => {
-    if (searchParams.get("timeclock") === "pin" && currentEmployee) {
+    if (
+      !handledTimeclockParam.current &&
+      searchParams.get("timeclock") === "pin" &&
+      currentEmployee
+    ) {
+      handledTimeclockParam.current = true;
       setTimeclockVariant("pinEntry");
       setTimeclockOpen(true);
       router.replace("/orders");

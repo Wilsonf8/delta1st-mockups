@@ -105,7 +105,6 @@ export function TimeclockModal({
       router.push("/");
     } else if (variant === "pinEntry") {
       close();
-      router.push("/orders");
     } else {
       close();
     }
