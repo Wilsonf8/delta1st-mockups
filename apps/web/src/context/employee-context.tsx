@@ -12,6 +12,7 @@ import { Employee, TimeLogEntry } from "@/lib/types";
 import { initialEmployees } from "@/lib/mock-data";
 
 const STORAGE_KEY = "pos-employee-state";
+const SESSION_KEY = "pos-current-employee-id";
 
 type EmployeeContextType = {
   employees: Employee[];
@@ -69,7 +70,19 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
   const [employees, setEmployees] = useState<Employee[]>(() => {
     return loadFromStorage() ?? initialEmployees;
   });
-  const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
+  const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const savedId = sessionStorage.getItem(SESSION_KEY);
+      if (savedId) {
+        const emps = loadFromStorage() ?? initialEmployees;
+        return emps.find((e) => e.id === savedId) ?? null;
+      }
+    } catch {
+      // ignore
+    }
+    return null;
+  });
   const [currentTime, setCurrentTime] = useState(new Date());
   const initialized = useRef(false);
 
@@ -117,6 +130,7 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
       const emp = employees.find((e) => e.pin === pin);
       if (emp) {
         setCurrentEmployee(emp);
+        sessionStorage.setItem(SESSION_KEY, emp.id);
         return emp;
       }
       return null;
@@ -126,6 +140,7 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(() => {
     setCurrentEmployee(null);
+    sessionStorage.removeItem(SESSION_KEY);
   }, []);
 
   const clockIn = useCallback(
