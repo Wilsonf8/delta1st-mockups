@@ -158,6 +158,18 @@ export function TimeclockModal({
 
   const renderButtons = () => {
     if (variant === "pinEntry") {
+      if (clockStatus === "CLOCKED_IN") {
+        return (
+          <div className="flex flex-col gap-2">
+            <Button
+              onClick={close}
+              className="bg-pos-green hover:bg-pos-green-dark text-white"
+            >
+              Continue
+            </Button>
+          </div>
+        );
+      }
       if (clockStatus === "ON_BREAK") {
         return (
           <div className="flex flex-col gap-2">

@@ -23,7 +23,7 @@ function OrdersContent() {
   const searchParams = useSearchParams();
   const handledTimeclockParam = useRef(false);
 
-  // Auto-open timeclock modal when arriving from PIN entry while clocked out
+  // Auto-open timeclock modal when arriving from PIN entry while clocked out/on break
   useEffect(() => {
     if (
       !handledTimeclockParam.current &&
@@ -31,9 +31,11 @@ function OrdersContent() {
       currentEmployee
     ) {
       handledTimeclockParam.current = true;
-      setTimeclockVariant("pinEntry");
-      setTimeclockOpen(true);
       router.replace("/orders");
+      if (currentEmployee.clockStatus !== "CLOCKED_IN") {
+        setTimeclockVariant("pinEntry");
+        setTimeclockOpen(true);
+      }
     }
   }, [searchParams, currentEmployee, router]);
 

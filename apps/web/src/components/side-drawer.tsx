@@ -17,6 +17,7 @@ import {
   Settings,
   LogOut,
   Clock,
+  Trash2,
 } from "lucide-react";
 
 type SideDrawerProps = {
@@ -84,7 +85,7 @@ export function SideDrawer({
 
         <Separator />
 
-        <div className="flex gap-2 pb-4 pt-2">
+        <div className="flex gap-2 pb-2 pt-2">
           <Button
             variant="outline"
             className="flex-1 gap-2"
@@ -102,6 +103,19 @@ export function SideDrawer({
             Sign Out
           </Button>
         </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="w-full gap-2 text-gray-400 hover:text-red-500 hover:bg-red-50 mb-2"
+          onClick={() => {
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = "/";
+          }}
+        >
+          <Trash2 className="w-4 h-4" />
+          Clear All Storage
+        </Button>
       </SheetContent>
     </Sheet>
   );

@@ -127,7 +127,9 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(
     (pin: string): Employee | null => {
-      const emp = employees.find((e) => e.pin === pin);
+      // Always read fresh data from localStorage to avoid stale SSR-initialized state
+      const freshEmployees = loadFromStorage() ?? employees;
+      const emp = freshEmployees.find((e) => e.pin === pin);
       if (emp) {
         setCurrentEmployee(emp);
         sessionStorage.setItem(SESSION_KEY, emp.id);
